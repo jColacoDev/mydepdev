@@ -22,23 +22,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Configurar Node.js (opcional)
-        if: ${{ false }} # muda para 'true' se precisares de build
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Instalar dependências
-        if: ${{ false }}
-        run: npm ci
-
-      - name: Build
-        if: ${{ false }}
-        run: npm run build
-
       - name: Empacotar artefacto
-        if: ${{ always() }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: "./"
