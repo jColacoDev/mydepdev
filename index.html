@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acme — Torna o teu produto inesquecível</title>
+  <meta name="description" content="Landing page moderna e rápida com secções completas: herói, features, preços, testemunhos e contactos." />
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Acme — Torna o teu produto inesquecível" />
+  <meta property="og:description" content="Landing page moderna e rápida com secções completas." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop" />
+  <meta property="og:url" content="https://example.com" />
+
+  <style>
+    /* ==========
+       Design System
+       ========== */
+    :root {
+      --brand: #4a6cf7;
+      --brand-600: #3856d6;
+      --bg: #ffffff;
+      --bg-soft: #f7f8fc;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --bg-soft: #0f172a;
+        --text: #e5e7eb;
+        --muted: #9aa3b2;
+        --border: #1f2937;
+        --shadow: 0 10px 30px rgba(0,0,0,0.45);
+      }
+    }
+
+    /* Reset e base */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: .5rem; padding: 12px 20px; border-radius: 10px; font-weight: 600;
+      border: 1px solid transparent; transition: .2s ease;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-600); transform: translateY(-1px); }
+    .btn-ghost { border-color: var(--border); background: transparent; color: var(--text); }
+    .btn-ghost:hover { background: var(--bg-soft); }
+    .badge {
+      display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: .85rem;
+      background: rgba(74,108,247,.12); color: var(--brand); border: 1px solid rgba(74,108,247,.25);
+    }
+    .muted { color: var(--muted); }
+    .card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+    .skip-link:focus {
+      position: fixed; left: 20px; top: 20px; width: auto; height: auto; padding: 10px 14px; background: var(--brand); color: #fff; border-radius: 8px; z-index: 9999;
+    }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; backdrop-filter: saturate(150%) blur(12px);
+      background: color-mix(in hsl, var(--bg) 92%, transparent);
+      border-bottom: 1px solid var(--border); z-index: 50;
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0;
+    }
+    .logo { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.2px; }
+    .logo-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 4px rgba(74,108,247,.15); }
+    nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; }
+    nav a { color: var(--muted); font-weight: 600; }
+    nav a:hover { color: var(--text); }
+    .nav-cta { display:flex; gap:10px; align-items:center; }
+
+    /* Mobile nav */
+    .menu-btn { display:none; background: transparent; border: 1px solid var(--border); padding:10px; border-radius: 10px; }
+    .menu-btn svg { width:22px; height:22px; }
+    @media (max-width: 940px) {
+      nav { display:none; }
+      .menu-btn { display:inline-flex; }
+      .mobile-menu {
+        display:none; position: absolute; left:0; right:0; top:64px; background: var(--bg);
+        border-bottom: 1px solid var(--border); padding: 14px 20px;
+      }
+      .mobile-menu.open { display:block; }
+      .mobile-menu ul { list-style:none; padding:0; margin:0; display:grid; gap:10px; }
+      .nav-cta { display:none; }
+    }
+
+    /* Hero */
+    .hero {
+      display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; padding: 70px 0;
+    }
+    .hero h1 { font-size: clamp(2.2rem, 4vw + 1rem, 3.5rem); line-height: 1.1; margin: 10px 0 12px; }
+    .hero p.lead { font-size: clamp(1rem, 1vw + .6rem, 1.2rem); color: var(--muted); max-width: 58ch; }
+    .hero-media {
+      position: relative; border-radius: 22px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .hero-media img { width:100%; height:100%; object-fit: cover; }
+    .hero-strip {
+      margin-top: 26px; display:flex; gap: 16px; align-items: center; flex-wrap: wrap;
+      color: var(--muted); font-size: .95rem;
+    }
+    .logos { display:flex; gap:22px; align-items:center; opacity:.7; }
+    .logos img { height:22px; filter: grayscale(1) contrast(.8); opacity:.9; }
+
+    @media (max-width: 940px) {
+      .hero { grid-template-columns: 1fr; padding: 40px 0; }
+    }
+
+    /* Features */
+    .section { padding: 70px 0; }
+    .section h2 { font-size: clamp(1.6rem, 2vw + .8rem, 2.4rem); margin: 0 0 10px; }
+    .section .sub { color: var(--muted); margin-bottom: 28px; }
+    .features {
+      display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+    }
+    .feature { padding: 20px; }
+    .icon {
+      width:44px; height:44px; border-radius: 12px; display:grid; place-items:center; margin-bottom: 12px;
+      background: rgba(74,108,247,.12); color: var(--brand); border: 1px solid rgba(74,108,247,.25);
+    }
+    .feature h3 { margin: 6px 0 6px; }
+    .feature p { color: var(--muted); margin: 0; }
+    @media (max-width: 940px) {
+      .features { grid-template-columns: 1fr; }
+    }
+
+    /* Sobre */
+    .about {
+      display:grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items:center;
+    }
+    .about .grid {
+      display:grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .about .grid img { border-radius: 16px; border: 1px solid var(--border); }
+    @media (max-width: 940px) {
+      .about { grid-template-columns: 1fr; }
+    }
+
+    /* Testemunhos */
+    .testimonials {
+      display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+    }
+    .testimonial { padding: 20px; }
+    .testimonial .who { display:flex; align-items:center; gap: 12px; margin-top: 14px; }
+    .avatar { width:42px; height:42px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); }
+    @media (max-width: 940px) {
+      .testimonials { grid-template-columns: 1fr; }
+    }
+
+    /* Preços */
+    .pricing {
+      display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch;
+    }
+    .plan { padding: 24px; display:grid; align-content: start; gap: 14px; border-radius: 16px; border: 1px solid var(--border); background: var(--bg); box-shadow: var(--shadow);}
+    .plan .price { font-size: 2rem; font-weight: 800; }
+    .plan ul { list-style:none; padding:0; margin:0; display:grid; gap:8px; color: var(--muted); }
+    .plan .badgeline { display:flex; gap:8px; align-items:center; }
+    .plan.popular { outline: 2px solid var(--brand); }
+    @media (max-width: 940px) { .pricing { grid-template-columns: 1fr; } }
+
+    /* FAQ */
+    .faq { display:grid; gap: 12px; }
+    details { border:1px solid var(--border); border-radius: 12px; padding: 12px 16px; background: var(--bg); box-shadow: var(--shadow); }
+    details[open] summary { color: var(--brand); }
+    summary { cursor:pointer; font-weight: 700; list-style: none; }
+    summary::-webkit-details-marker { display:none; }
+
+    /* Contactos */
+    .contact { display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    form { display:grid; gap: 12px; }
+    label { font-weight: 600; }
+    input, textarea, select {
+      width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg);
+      color: var(--text);
+    }
+    input:focus, textarea:focus, select:focus { outline: 2px solid var(--brand); border-color: transparent; }
+    @media (max-width: 940px) { .contact { grid-template-columns: 1fr; } }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); background: var(--bg-soft); margin-top: 40px; }
+    .footer-grid {
+      display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 22px; padding: 30px 0;
+    }
+    .footer-col h4 { margin: 0 0 12px; }
+    .footer-col ul { list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+    .social { display:flex; gap:10px; }
+    .social a { display:grid; place-items:center; width:36px; height:36px; border-radius: 10px; border:1px solid var(--border); }
+    .social a:hover { border-color: var(--brand); color: var(--brand); }
+    .copyright { border-top:1px solid var(--border); padding: 14px 0; color: var(--muted); font-size:.95rem; }
+    @media (max-width: 940px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+
+  <!-- ====== Header ====== -->
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#">
+        <span class="logo-dot" aria-hidden="true"></span>
+        <span>Acme</span>
+      </a>
+
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="#features">Funcionalidades</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#precos">Preços</a></li>
+          <li><a href="#testemunhos">Testemunhos</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contactos">Contactos</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="#precos">Ver preços</a>
+        <a class="btn btn-primary" href="#contactos">Experimentar</a>
+      </div>
+
+      <button class="menu-btn" aria-label="Alternar menu" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z"/></svg>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <ul class="container">
+        <li><a href="#features">Funcionalidades</a></li>
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#precos">Preços</a></li>
+        <li><a href="#testemunhos">Testemunhos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contactos">Contactos</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- ====== Hero ====== -->
+    <section class="container hero" aria-label="Herói">
+      <div>
+        <span class="badge">Novo · Mais rápido do que nunca</span>
+        <h1>Impulsiona o teu produto com uma experiência que converte</h1>
+        <p class="lead">
+          Uma landing page moderna, rápida e acessível — pronta para testes A/B, SEO e integrações.
+          Começa em minutos e escala sem complicações.
+        </p>
+        <div style="display:flex; gap:10px; margin-top: 14px;">
+          <a class="btn btn-primary" href="#precos">Começar agora</a>
+          <a class="btn btn-ghost" href="#sobre">Ver como funciona</a>
+        </div>
+
+        <div class="hero-strip">
+          <span class="muted">Confiado por equipas em crescimento</span>
+          <div class="logos">
+            <img src="https://dummyimage.com/100x24/cccccc/ffffff&text=ACME" alt="Logo ACME" loading="lazy" />
+            <img src="https://dummyimage.com/80x24/cccccc/ffffff&text=Zen" alt="Logo Zen" loading="lazy" />
+            <img src="https://dummyimage.com/90x24/cccccc/ffffff&text=Nova" alt="Logo Nova" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1400&auto=format&fit=crop"
+             alt="Equipa a colaborar em frente a portáteis" width="1200" height="900" />
+      </div>
+    </section>
+
+    <!-- ====== Features ====== -->
+    <section id="features" class="section container">
+      <h2>Funcionalidades que interessam</h2>
+      <p class="sub">Construído com foco em performance, acessibilidade e conversão.</p>
+
+      <div class="features">
+        <article class="feature card">
+          <div class="icon" aria-hidden="true">
+            <!-- Lightning -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 21h-1l1-7H8l6-11h1l-1 7h3z"/></svg>
+          </div>
+          <h3>Rápido por defeito</h3>
+          <p>HTML/CSS minimalistas, imagens otimizadas e sem dependências pesadas.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="icon" aria-hidden="true">
+            <!-- Shield -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l7 4v6c0 5-3.6 9.3-7 10-3.4-.7-7-5-7-10V6z"/></svg>
+          </div>
+          <h3>Acessível</h3>
+          <p>Semântica correta, contraste adequado e suporte a leitor de ecrã.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="icon" aria-hidden="true">
+            <!-- SEO -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 2a8 8 0 105.3 14.1l4.3 4.3 1.4-1.4-4.3-4.3A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/></svg>
+          </div>
+          <h3>Pronto para SEO</h3>
+          <p>Metadados, Open Graph e hierarquia correta de headings.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="icon" aria-hidden="true">
+            <!-- Puzzle -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2h-4v3a2 2 0 104 0zM2 10v4h3a2 2 0 100-4zM19 10a2 2 0 100 4h3v-4zM10 19a2 2 0 104 0v3h-4z"/></svg>
+          </div>
+          <h3>Fácil de integrar</h3>
+          <p>Pronto para formulários, analytics e automações.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="icon" aria-hidden="true">
+            <!-- Paint -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M7 16l9-9 2 2-9 9H7v-2zM5 18h4l10-10a2 2 0 10-4-4L5 14v4z"/></svg>
+          </div>
+          <h3>Design flexível</h3>
+          <p>Tokens de cor, dark mode e componentes reutilizáveis.</p>
+        </article>
+
+        <article class="feature card">
+          <div class="icon" aria-hidden="true">
+            <!-- Chart -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h2v18H3zM7 13h2v8H7zM11 9h2v12h-2zM15 5h2v16h-2zM19 2h2v19h-2z"/></svg>
+          </div>
+          <h3>Feito para converter</h3>
+          <p>CTAs claros, hierarquia visual e performance de topo.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== Sobre ====== -->
+    <section id="sobre" class="section container">
+      <div class="about">
+        <div>
+          <h2>Uma base sólida para crescer</h2>
+          <p class="sub">Menos fricção, mais resultados. Integra-te com o que já usas.</p>
+          <ul class="muted" style="margin:0; padding-left: 18px; display:grid; gap:6px;">
+            <li>Estrutura semântica e leve — <em>sem build</em> obrigatório.</li>
+            <li>Imagens com <code>loading="lazy"</code> e tamanhos responsivos.</li>
+            <li>Pronto para alojar em GitHub Pages, Vercel ou Netlify.</li>
+          </ul>
+          <div style="margin-top: 14px; display:flex; gap:10px;">
+            <a class="btn btn-primary" href="#contactos">Falar com a equipa</a>
+            <a class="btn btn-ghost" href="#testemunhos">Ver feedback</a>
+          </div>
+        </div>
+
+        <div class="grid">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop" alt="Código em editor moderno" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?q=80&w=800&auto=format&fit=crop" alt="Dashboard com gráficos" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=800&auto=format&fit=crop" alt="Reunião de equipa" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop" alt="Planeamento em quadro branco" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== Testemunhos ====== -->
+    <section id="testemunhos" class="section container">
+      <h2>O que dizem os nossos clientes</h2>
+      <p class="sub">Resultados reais em semanas, não meses.</p>
+
+      <div class="testimonials">
+        <article class="testimonial card">
+          <p>“Em 2 dias tínhamos uma página a converter 27% melhor do que a anterior.”</p>
+          <div class="who">
+            <img class="avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=300&auto=format&fit=crop" alt="Foto de Ana Martins" loading="lazy" />
+            <div>
+              <strong>Ana Martins</strong><br />
+              <span class="muted">Head of Growth, Nova</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial card">
+          <p>“A performance é absurda. Sem plugins pesados e com um design impecável.”</p>
+          <div class="who">
+            <img class="avatar" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=300&auto=format&fit=crop" alt="Foto de Pedro Sousa" loading="lazy" />
+            <div>
+              <strong>Pedro Sousa</strong><br />
+              <span class="muted">CTO, Orbit</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="testimonial card">
+          <p>“Integrações simples e suporte a dark mode de raiz. Recomendo.”</p>
+          <div class="who">
+            <img class="avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=300&auto=format&fit=crop" alt="Foto de Sofia Costa" loading="lazy" />
+            <div>
+              <strong>Sofia Costa</strong><br />
+              <span class="muted">Product Designer, Zen</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== Preços ====== -->
+    <section id="precos" class="section container">
+      <h2>Planos simples e transparentes</h2>
+      <p class="sub">Escolhe o plano certo para a tua fase. Cancela quando quiseres.</p>
+
+      <div class="pricing">
+        <article class="plan">
+          <div class="badgeline">
+            <span class="badge">Início</span>
+          </div>
+          <h3>Grátis</h3>
+          <div class="price">€0<span class="muted" style="font-size:.9rem;">/mês</span></div>
+          <ul>
+            <li>1 página</li>
+            <li>Até 1.000 visitas/mês</li>
+            <li>Formulário básico</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contactos" style="margin-top:8px;">Começar</a>
+        </article>
+
+        <article class="plan popular">
+          <div class="badgeline">
+            <span class="badge">Mais popular</span>
+          </div>
+          <h3>Pro</h3>
+          <div class="price">€19<span class="muted" style="font-size:.9rem;">/mês</span></div>
+          <ul>
+            <li>3 páginas + A/B testing</li>
+            <li>Até 50.000 visitas/mês</li>
+            <li>Integrações (GA4, HubSpot, etc.)</li>
+            <li>Suporte prioritário</li>
+          </ul>
+          <a class="btn btn-primary" href="#contactos" style="margin-top:8px;">Experimentar Pro</a>
+        </article>
+
+        <article class="plan">
+          <div class="badgeline">
+            <span class="badge" style="background: rgba(22,163,74,.12); color: var(--success); border-color: rgba(22,163,74,.25);">Equipa</span>
+          </div>
+          <h3>Empresa</h3>
+          <div class="price">Custom</div>
+          <ul>
+            <li>Páginas ilimitadas</li>
+            <li>SLA & suporte dedicado</li>
+            <li>Integrações avançadas</li>
+          </ul>
+          <a class="btn btn-ghost" href="#contactos" style="margin-top:8px;">Falar vendas</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== FAQ ====== -->
+    <section id="faq" class="section container">
+      <h2>Perguntas frequentes</h2>
+      <div class="faq">
+        <details>
+          <summary>Posso usar isto com GitHub Pages?</summary>
+          <div class="muted">Sim. Basta fazer push do ficheiro <code>index.html</code> para a branch <code>gh-pages</code> ou ativar Pages na branch principal.</div>
+        </details>
+        <details>
+          <summary>Como ligo o formulário sem backend?</summary>
+          <div class="muted">Podes usar serviços como Netlify Forms, Formspree ou um endpoint serverless. Posso adicionar a integração que preferires.</div>
+        </details>
+        <details>
+          <summary>É fácil trocar o esquema de cores?</summary>
+          <div class="muted">Sim — altera as variáveis CSS em <code>:root</code> (ex.: <code>--brand</code>, <code>--bg</code>, <code>--text</code>).</div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ====== Contactos ====== -->
+    <section id="contactos" class="section container">
+      <h2>Vamos falar</h2>
+      <p class="sub">Deixa-nos uma mensagem e respondemos rapidamente.</p>
+      <div class="contact">
+        <form action="#" method="post" autocomplete="on" aria-label="Formulário de contacto">
+          <div>
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" placeholder="O teu nome" required />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="nome@exemplo.com" required />
+          </div>
+          <div>
+            <label for="assunto">Assunto</label>
+            <input id="assunto" name="assunto" type="text" placeholder="Como podemos ajudar?" />
+          </div>
+          <div>
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreve a tua mensagem…"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Enviar</button>
+          <p class="muted" style="margin:0;">* Este formulário é um exemplo — adiciono o backend/serviço que preferires.</p>
+        </form>
+
+        <div class="card" style="padding:18px;">
+          <h3>Contactos</h3>
+          <p class="muted">Preferes email ou marcar uma chamada? Estamos por aqui.</p>
+          <ul style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
+            <li>📧 <a href="mailto:hello@example.com">hello@example.com</a></li>
+            <li>📞 <a href="tel:+351210000000">+351 21 000 00 00</a></li>
+            <li>📍 Lisboa, Portugal</li>
+          </ul>
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop"
+               alt="Escritório moderno" style="margin-top:12px; border-radius:12px; border:1px solid var(--border);" loading="lazy" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====== Footer ====== -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <div class="logo">
+          <span class="logo-dot" aria-hidden="true"></span>
+          <span>Acme</span>
+        </div>
+        <p class="muted" style="max-width:50ch;">Criamos experiências web rápidas e elegantes que ajudam produtos a crescer.</p>
+        <div class="social" aria-label="Redes sociais">
+          <a aria-label="Twitter" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69a4.27 4.27 0 001.87-2.36 8.59 8.59 0 01-2.72 1.04A4.26 4.26 0 0016 4a4.27 4.27 0 00-4.26 4.26c0 .33.04.65.11.95A12.1 12.1 0 013 5.15a4.25 4.25 0 001.32 5.68 4.2 4.2 0 01-1.93-.53v.05a4.27 4.27 0 003.42 4.18c-.47.13-.96.2-1.47.2-.36 0-.71-.04-1.05-.1A4.28 4.28 0 007.9 18a8.54 8.54 0 01-6.29 1.76A12.06 12.06 0 008.24 21c7.93 0 12.27-6.57 12.27-12.27 0-.19 0-.38-.01-.57A8.73 8.73 0 0022.46 6z"/></svg></a>
+          <a aria-label="LinkedIn" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7 0h3.8v2.2H11c.53-1 1.84-2.2 3.78-2.2 4.04 0 4.79 2.66 4.79 6.12V24h-4v-6.9c0-1.64-.03-3.75-2.3-3.75-2.3 0-2.66 1.79-2.66 3.64V24h-4V8z"/></svg></a>
+          <a aria-label="GitHub" href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 000 12a11.5 11.5 0 008 11c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.4-4-1.4-.6-1.5-1.4-1.9-1.4-1.9-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.3 1.8 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.4-1.3-5.4-6A4.7 4.7 0 016 7c-.1-.3-.5-1.3.1-2.6 0 0 1-.3 3.1 1.2.9-.2 1.9-.4 2.8-.4s1.9.1 2.8.4C16.9 4.1 18 4.4 18 4.4c.6 1.3.2 2.3.1 2.6a4.7 4.7 0 011.2 3.2c0 4.6-2.8 5.6-5.5 6 .4.4.8 1.1.8 2.3v3.4c0 .3.2.7.8.6A11.5 11.5 0 0024 12 11.5 11.5 0 0012 .5z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Produto</h4>
+        <ul>
+          <li><a href="#features">Funcionalidades</a></li>
+          <li><a href="#precos">Preços</a></li>
+          <li><a href="#faq">Perguntas</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#testemunhos">Clientes</a></li>
+          <li><a href="#contactos">Contactos</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Recursos</h4>
+        <ul>
+          <li><a href="#">Guias</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Estado</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container copyright">
+      <span>© <span id="year"></span> Acme. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Ano no footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Toggle mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
+
+    // Fechar menu ao clicar num link (mobile)
+    mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+  </script>
+</body>
+</html>
