@@ -1,4 +1,4 @@
-name: CI Node.js
+name: Deploy site estático (GitHub Pages)
 
 on:
   push:
@@ -6,21 +6,50 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v3
+      - name: Configurar Node.js (opcional)
+        if: ${{ false }} # muda para 'true' se precisares de build
+        uses: actions/setup-node@v4
         with:
           node-version: "18"
+          cache: "npm"
 
       - name: Instalar dependências
-        run: npm install
+        if: ${{ false }}
+        run: npm ci
 
-      - name: Executar testes
-        run: npm test
+      - name: Build
+        if: ${{ false }}
+        run: npm run build
+
+      - name: Empacotar artefacto
+        if: ${{ always() }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy para GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
