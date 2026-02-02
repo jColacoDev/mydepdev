@@ -572,10 +572,8 @@
   </footer>
 
   <script>
-    // Ano no footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Toggle mobile menu
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn?.addEventListener('click', () => {
@@ -583,7 +581,6 @@
       menuBtn.setAttribute('aria-expanded', String(open));
     });
 
-    // Fechar menu ao clicar num link (mobile)
     mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
       mobileMenu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
     }));
